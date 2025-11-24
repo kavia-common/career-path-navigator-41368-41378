@@ -31,6 +31,7 @@ Operational Error Handling:
 - Duplicate email on register → 409 Conflict
 - SQLite Operational errors (e.g., locked DB, path invalid) → 400 Bad Request (no stack traces)
 - Invalid credentials → 401 Unauthorized
+- The FastAPI app installs a global sqlite3.DatabaseError handler that maps DB errors to 400 to prevent 500s during common auth/persistence flows.
 
 Smoke test with SQLite:
 1) POST /auth/register {"email":"user@example.com","password":"StrongPassw0rd!","full_name":"User"}

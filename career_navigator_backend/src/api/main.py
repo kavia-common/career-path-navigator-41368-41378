@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+import sqlite3
 
 from src.core.config import get_settings
 from src.routers import health, auth, datasets, roles, competencies, adjacency, resources, recommendations, jobs, progress
@@ -35,6 +36,11 @@ app.add_middleware(
 )
 
 # Exception handlers (structured, no sensitive details)
+@app.exception_handler(sqlite3.DatabaseError)
+async def sqlite_error_handler(request: Request, exc: sqlite3.DatabaseError):
+    # Map sqlite operational/db errors to 400 to avoid 500s in auth flows or simple persistence actions
+    return JSONResponse(status_code=400, content={"detail": "Database operation failed"})
+
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})

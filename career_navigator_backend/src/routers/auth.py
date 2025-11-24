@@ -53,9 +53,15 @@ def _get_user_by_email(email: str) -> Optional[Dict]:
     settings = get_settings()
     email_norm = _normalize_email(email)
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE email = ?", (email_norm,))
-            return row
+        try:
+            with sqlite_db.get_conn() as conn:
+                row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE email = ?", (email_norm,))
+                return row
+        except sqlite3.OperationalError:
+            # Map to client error
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
+        except sqlite3.DatabaseError:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
     # In-memory
     uid = _mem_users_by_email.get(email_norm)
     return _mem_users.get(uid) if uid else None
@@ -103,9 +109,15 @@ def _create_user(email: EmailStr, full_name: Optional[str], pwd_hash: str) -> Di
 def _get_user_by_id(user_id: str) -> Optional[Dict]:
     settings = get_settings()
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE id = ?", (user_id,))
-            return row
+        try:
+            with sqlite_db.get_conn() as conn:
+                row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE id = ?", (user_id,))
+                return row
+        except sqlite3.OperationalError:
+            # On DB read error during auth resolution, surface as generic not found to avoid leaking state
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
+        except sqlite3.DatabaseError:
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
     return _mem_users.get(user_id)
 
 
