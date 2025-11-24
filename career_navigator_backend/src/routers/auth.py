@@ -64,7 +64,7 @@ def _get_user_by_email(email: str) -> Optional[Dict]:
     if settings.data_provider == "sqlite":
         try:
             with sqlite_db.get_conn() as conn:
-                row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE email = ?", (email_norm,))
+                row = sqlite_db.auth_get_user_by_email(conn, email_norm)
                 return row
         except sqlite3.OperationalError:
             # Map to client error
@@ -92,11 +92,7 @@ def _create_user(email: EmailStr, full_name: Optional[str], pwd_hash: str) -> Di
     if settings.data_provider == "sqlite":
         try:
             with sqlite_db.get_conn() as conn:
-                sqlite_db.execute(
-                    conn,
-                    "INSERT INTO users (id, email, full_name, password_hash, created_at) VALUES (?, ?, ?, ?, ?)",
-                    (record["id"], record["email"], record["full_name"], record["password_hash"], record["created_at"]),
-                )
+                sqlite_db.auth_insert_user(conn, record)
         except sqlite3.IntegrityError:
             # Unique constraint violation (email)
             raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
@@ -120,7 +116,7 @@ def _get_user_by_id(user_id: str) -> Optional[Dict]:
     if settings.data_provider == "sqlite":
         try:
             with sqlite_db.get_conn() as conn:
-                row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE id = ?", (user_id,))
+                row = sqlite_db.auth_get_user_by_id(conn, user_id)
                 return row
         except sqlite3.OperationalError:
             # On DB read error during auth resolution, surface as generic not found to avoid leaking state
