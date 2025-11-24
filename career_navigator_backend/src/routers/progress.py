@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Dict, List, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from pydantic import BaseModel, Field
 
 from src.routers.auth import get_current_user
@@ -29,12 +29,15 @@ class ProgressCreate(BaseModel):
 def _add_progress(rec: Dict) -> None:
     settings = get_settings()
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            sqlite_db.execute(
-                conn,
-                "INSERT INTO progress (id, user_id, competency, level, evidence_url) VALUES (?, ?, ?, ?, ?)",
-                (rec["id"], rec["user_id"], rec["competency"], rec["level"], rec.get("evidence_url")),
-            )
+        try:
+            with sqlite_db.get_conn() as conn:
+                sqlite_db.execute(
+                    conn,
+                    "INSERT INTO progress (id, user_id, competency, level, evidence_url) VALUES (?, ?, ?, ?, ?)",
+                    (rec["id"], rec["user_id"], rec["competency"], rec["level"], rec.get("evidence_url")),
+                )
+        except Exception:
+            raise HTTPException(status_code=400, detail="Failed to persist progress")
     else:
         _mem_progress[rec["id"]] = rec
         _user_progress_index.setdefault(rec["user_id"], []).append(rec["id"])
@@ -43,8 +46,11 @@ def _add_progress(rec: Dict) -> None:
 def _list_progress(user_id: str) -> List[Dict]:
     settings = get_settings()
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            return sqlite_db.fetch_all(conn, "SELECT * FROM progress WHERE user_id = ?", (user_id,))
+        try:
+            with sqlite_db.get_conn() as conn:
+                return sqlite_db.fetch_all(conn, "SELECT * FROM progress WHERE user_id = ?", (user_id,))
+        except Exception:
+            raise HTTPException(status_code=400, detail="Failed to load progress")
     ids = _user_progress_index.get(user_id, [])
     return [_mem_progress[i] for i in ids if i in _mem_progress]
 

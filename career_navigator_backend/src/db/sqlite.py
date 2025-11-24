@@ -6,6 +6,7 @@ PySecure-4-Minimal:
 - Use parameterized queries.
 - Ensure connections are closed via context managers.
 - Avoid logging sensitive data.
+- Create DB directory if missing; initialize schema on first connect.
 """
 from __future__ import annotations
 

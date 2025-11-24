@@ -4,7 +4,7 @@ from __future__ import annotations
 from typing import Dict, List, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from pydantic import BaseModel, Field
 
 from src.routers.auth import get_current_user
@@ -30,12 +30,16 @@ class JobCreate(BaseModel):
 def _add_job(rec: Dict) -> None:
     settings = get_settings()
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            sqlite_db.execute(
-                conn,
-                "INSERT INTO jobs (id, user_id, title, company, status, notes) VALUES (?, ?, ?, ?, ?, ?)",
-                (rec["id"], rec["user_id"], rec["title"], rec["company"], rec["status"], rec.get("notes")),
-            )
+        try:
+            with sqlite_db.get_conn() as conn:
+                sqlite_db.execute(
+                    conn,
+                    "INSERT INTO jobs (id, user_id, title, company, status, notes) VALUES (?, ?, ?, ?, ?, ?)",
+                    (rec["id"], rec["user_id"], rec["title"], rec["company"], rec["status"], rec.get("notes")),
+                )
+        except Exception:
+            # Generic DB error surfaced as client error to avoid 500s for common issues
+            raise HTTPException(status_code=400, detail="Failed to persist job")
     else:
         _mem_jobs[rec["id"]] = rec
         _user_jobs_index.setdefault(rec["user_id"], []).append(rec["id"])
@@ -44,8 +48,11 @@ def _add_job(rec: Dict) -> None:
 def _list_jobs(user_id: str) -> List[Dict]:
     settings = get_settings()
     if settings.data_provider == "sqlite":
-        with sqlite_db.get_conn() as conn:
-            return sqlite_db.fetch_all(conn, "SELECT * FROM jobs WHERE user_id = ?", (user_id,))
+        try:
+            with sqlite_db.get_conn() as conn:
+                return sqlite_db.fetch_all(conn, "SELECT * FROM jobs WHERE user_id = ?", (user_id,))
+        except Exception:
+            raise HTTPException(status_code=400, detail="Failed to load jobs")
     ids = _user_jobs_index.get(user_id, [])
     return [ _mem_jobs[i] for i in ids if i in _mem_jobs ]
 

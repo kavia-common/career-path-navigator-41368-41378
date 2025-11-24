@@ -9,12 +9,12 @@ PySecure-4-Minimal controls:
 - Avoid crashing on missing env; provide safe defaults for dev.
 
 Environment variables (to be provided via .env by orchestrator):
-- DATA_PROVIDER: 'json' (default) or 'sqlite'
+- DATA_PROVIDER: 'sqlite' (default) or 'json'
 - JWT_SECRET: Secret key for JWT; defaults to a dev value only for local use
 - JWT_ALGORITHM: Defaults to HS256
 - ACCESS_TOKEN_EXPIRE_MINUTES: Defaults to 60
 - DB_PATH: Optional absolute/relative path to sqlite database. If not provided,
-  will attempt ../career_navigator_database/myapp.db if present; else in-memory.
+  will attempt ../career_navigator_database/myapp.db if present; else create a local file.
 
 Note: Do not write .env here. Provide a .env.example elsewhere if needed.
 """
@@ -29,7 +29,7 @@ from pydantic import BaseModel, Field, ValidationError
 class Settings(BaseModel):
     """Configuration settings loaded from environment with secure defaults."""
     data_provider: Literal["json", "sqlite"] = Field(
-        default="json", description="Data provider for catalogs and persistence."
+        default="sqlite", description="Data provider for catalogs and persistence."
     )
     jwt_secret: str = Field(
         default="dev-secret-change-me", description="JWT secret key (dev default)."
@@ -53,11 +53,15 @@ class Settings(BaseModel):
 
 
 def _default_db_path() -> str:
-    # Try sibling database container path
+    """Resolve the default SQLite file path.
+
+    Priority:
+    1) Sibling container database: ../../career_navigator_database/myapp.db
+    2) Local file under backend workspace: ../myapp.db
+    """
     sibling = Path(__file__).resolve().parents[3] / "career_navigator_database" / "myapp.db"
-    if sibling.exists():
+    if sibling.exists() or sibling.parent.exists():
         return str(sibling)
-    # Fallback to local file path within backend workspace
     local = Path(__file__).resolve().parents[2] / "myapp.db"
     return str(local)
 
@@ -71,9 +75,9 @@ def load_settings() -> Settings:
     Raises:
         ValidationError: If environment values are invalid.
     """
-    data_provider = os.getenv("DATA_PROVIDER", "json").strip().lower()
+    data_provider = os.getenv("DATA_PROVIDER", "sqlite").strip().lower()
     if data_provider not in {"json", "sqlite"}:
-        data_provider = "json"  # safe default
+        data_provider = "sqlite"  # safe default favoring persistence
 
     cors_origins_raw = os.getenv("CORS_ORIGINS", "http://localhost:3000")
     cors_origins = [o.strip() for o in cors_origins_raw.split(",") if o.strip()]
