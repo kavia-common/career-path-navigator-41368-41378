@@ -1,0 +1,35 @@
+{
+  "sheet": "Adjacency (Overlap %)",
+  "headers": [
+    "Unnamed: 0",
+    "Chief Architect",
+    "Chief Technology Officer (AI & Technology)",
+    "Business Unit Chief Information Officer",
+    "Chief Strategy Officer",
+    "Chief Operating Officer",
+    "Chief of Staff to the Chief Executive Officer",
+    "Global Shared Services Office Leader",
+    "Chief People Officer",
+    "Chief Information Security Officer",
+    "Vendor Executive",
+    "Consulting Partner",
+    "Board Director"
+  ],
+  "rows": [
+    {
+      "Unnamed: 0": "Chief Architect",
+      "Chief Architect": 100.0,
+      "Chief Technology Officer (AI & Technology)": 74.8,
+      "Business Unit Chief Information Officer": 80.9,
+      "Chief Strategy Officer": 58.2,
+      "Chief Operating Officer": 66.3,
+      "Chief of Staff to the Chief Executive Officer": 59.3,
+      "Global Shared Services Office Leader": 69.5,
+      "Chief People Officer": 58.1,
+      "Chief Information Security Officer": 85.7,
+      "Vendor Executive": 56.0,
+      "Consulting Partner": 77.2,
+      "Board Director": 57.1
+    }
+  ]
+}

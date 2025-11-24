@@ -1,0 +1,305 @@
+{
+  "sheet": "Gaps CA→Roles (Top 10)",
+  "headers": [
+    "Rank",
+    "Target role",
+    "Competency (canonical)",
+    "Chief Architect target (numeric)",
+    "Target role target (numeric)",
+    "Gap (levels)",
+    "Chief Architect target",
+    "Target role target"
+  ],
+  "rows": [
+    {
+      "Rank": 1,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Platform & product strategy (incl. AI/automation)",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 2,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Organization design & talent systems (dev experience, communities/guilds)",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 3,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Standards lifecycle (adopt/contain/retire, deprecations)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 4,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Developer Experience & Golden Paths",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 5,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Investment framing & option trade-offs (incl. one-way/two-way doors)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 6,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Data product thinking & AI patterns (contracts, quality, privacy)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 7,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Portfolio coherence & technical-debt management",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 8,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Operating model & governance (lightweight, evidence-based)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 9,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "Executive/board storytelling (internal)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 10,
+      "Target role": "Chief Technology Officer (AI & Technology)",
+      "Competency (canonical)": "External ecosystem signaling & analyst/customer credibility",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 1,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Vendor & commercial management (sourcing, negotiations, TCV)",
+      "Chief Architect target (numeric)": 1.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 2.0,
+      "Chief Architect target": "P",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 2,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Portfolio capital allocation & FinOps/Chargeback",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.5,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P–A",
+      "Target role target": "A–Au"
+    },
+    {
+      "Rank": 3,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Customer/market & competitive intelligence",
+      "Chief Architect target (numeric)": 1.0,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 4,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Platform & product strategy (incl. AI/automation)",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 5,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Organization design & talent systems (dev experience, communities/guilds)",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 6,
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Mergers, Acquisitions & Partnership Integration",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 1,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Customer/market & competitive intelligence",
+      "Chief Architect target (numeric)": 1.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 2.0,
+      "Chief Architect target": "P",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 2,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Mergers, Acquisitions & Partnership Integration",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 3,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Strategy → Capability mapping & value streams",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 4,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Investment framing & option trade-offs (incl. one-way/two-way doors)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 5,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Executive/board storytelling (internal)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 6,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Platform & product strategy (incl. AI/automation)",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 7,
+      "Target role": "Chief Strategy Officer",
+      "Competency (canonical)": "Portfolio capital allocation & FinOps/Chargeback",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 1,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Portfolio capital allocation & FinOps/Chargeback",
+      "Chief Architect target (numeric)": 1.5,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 2,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Operating model & governance (lightweight, evidence-based)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 3,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Service experience (XLA) & reliability",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 4,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Service management & shared services design (catalog, XLAs, chargeback)",
+      "Chief Architect target (numeric)": 2.0,
+      "Target role target (numeric)": 3.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Rank": 5,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Vendor & commercial management (sourcing, negotiations, TCV)",
+      "Chief Architect target (numeric)": 1.0,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P",
+      "Target role target": "A"
+    },
+    {
+      "Rank": 6,
+      "Target role": "Chief Operating Officer",
+      "Competency (canonical)": "Customer/market & competitive intelligence",
+      "Chief Architect target (numeric)": 1.0,
+      "Target role target (numeric)": 2.0,
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P",
+      "Target role target": "A"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "sheet": "Adjacency vs CA",
+  "headers": [
+    "Role",
+    "Overlap with Chief Architect (%)"
+  ],
+  "rows": [
+    {
+      "Role": "Chief Architect",
+      "Overlap with Chief Architect (%)": 100.0
+    },
+    {
+      "Role": "Chief Information Security Officer",
+      "Overlap with Chief Architect (%)": 85.7
+    },
+    {
+      "Role": "Business Unit Chief Information Officer",
+      "Overlap with Chief Architect (%)": 80.9
+    },
+    {
+      "Role": "Consulting Partner",
+      "Overlap with Chief Architect (%)": 77.2
+    },
+    {
+      "Role": "Chief Technology Officer (AI & Technology)",
+      "Overlap with Chief Architect (%)": 74.8
+    },
+    {
+      "Role": "Global Shared Services Office Leader",
+      "Overlap with Chief Architect (%)": 69.5
+    },
+    {
+      "Role": "Chief Operating Officer",
+      "Overlap with Chief Architect (%)": 66.3
+    },
+    {
+      "Role": "Chief of Staff to the Chief Executive Officer",
+      "Overlap with Chief Architect (%)": 59.3
+    },
+    {
+      "Role": "Chief Strategy Officer",
+      "Overlap with Chief Architect (%)": 58.2
+    },
+    {
+      "Role": "Chief People Officer",
+      "Overlap with Chief Architect (%)": 58.1
+    },
+    {
+      "Role": "Board Director",
+      "Overlap with Chief Architect (%)": 57.1
+    },
+    {
+      "Role": "Vendor Executive",
+      "Overlap with Chief Architect (%)": 56.0
+    }
+  ]
+}

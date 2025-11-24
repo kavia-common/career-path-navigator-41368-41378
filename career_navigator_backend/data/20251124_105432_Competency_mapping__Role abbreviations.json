@@ -1,0 +1,109 @@
+{
+  "sheet": "Role abbreviations",
+  "headers": [
+    "Role",
+    "Abbreviation"
+  ],
+  "rows": [
+    {
+      "Role": "Chief Architect",
+      "Abbreviation": "CA"
+    },
+    {
+      "Role": "Chief Technology Officer",
+      "Abbreviation": "CTO"
+    },
+    {
+      "Role": "Business Unit Chief Information Officer",
+      "Abbreviation": "BU CIO"
+    },
+    {
+      "Role": "Chief Strategy Officer",
+      "Abbreviation": "CSO"
+    },
+    {
+      "Role": "Chief Operating Officer",
+      "Abbreviation": "COO"
+    },
+    {
+      "Role": "Chief of Staff to the Chief Executive Officer",
+      "Abbreviation": "CoS"
+    },
+    {
+      "Role": "Global Shared Services Office Leader",
+      "Abbreviation": "GSSO"
+    },
+    {
+      "Role": "Chief People Officer",
+      "Abbreviation": "CPO"
+    },
+    {
+      "Role": "Chief Information Security Officer",
+      "Abbreviation": "CISO"
+    },
+    {
+      "Role": "Chief Information Officer",
+      "Abbreviation": "CIO"
+    },
+    {
+      "Role": "Chief Product & Technology Officer",
+      "Abbreviation": "CPTO"
+    },
+    {
+      "Role": "Chief Digital Officer",
+      "Abbreviation": "CDO"
+    },
+    {
+      "Role": "Chief Transformation Officer",
+      "Abbreviation": "CTrO"
+    },
+    {
+      "Role": "Chief Innovation Officer",
+      "Abbreviation": "CInO"
+    },
+    {
+      "Role": "Chief Data & Analytics Officer",
+      "Abbreviation": "CDAO"
+    },
+    {
+      "Role": "Chief AI Officer",
+      "Abbreviation": "CAIO"
+    },
+    {
+      "Role": "Head of PMO (Peer)",
+      "Abbreviation": "PMO"
+    },
+    {
+      "Role": "Head of AppDev / Engineering (Peer)",
+      "Abbreviation": "AppDev"
+    },
+    {
+      "Role": "Head of Infrastructure & Cloud (Peer)",
+      "Abbreviation": "Infra"
+    },
+    {
+      "Role": "Head of IT Operations (Peer)",
+      "Abbreviation": "Ops"
+    },
+    {
+      "Role": "GM, Digital Product ( (Peer)",
+      "Abbreviation": "DigProd"
+    },
+    {
+      "Role": "Field/Industry CTO (Vendor)",
+      "Abbreviation": "FCTO"
+    },
+    {
+      "Role": "Chief Customer Technology Officer (Vendor)",
+      "Abbreviation": "CCTO"
+    },
+    {
+      "Role": "Vendor Executive (Vendor)",
+      "Abbreviation": "VE"
+    },
+    {
+      "Role": "Consulting Partner (Vendor)",
+      "Abbreviation": "CP"
+    }
+  ]
+}

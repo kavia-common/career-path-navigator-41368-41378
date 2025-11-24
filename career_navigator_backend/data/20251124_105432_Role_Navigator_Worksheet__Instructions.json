@@ -1,0 +1,20 @@
+{
+  "sheet": "Instructions",
+  "headers": [
+    "Role Navigator — Instructions"
+  ],
+  "rows": [
+    {
+      "Role Navigator — Instructions": ""
+    },
+    {
+      "Role Navigator — Instructions": "We prefilled Overlap% from the adjacency document and seeded typical values for other columns. Adjust as needed."
+    },
+    {
+      "Role Navigator — Instructions": "Set weights in O2:O8; edit Interest, Sponsorship, Runway (months), Risk Fit, Market Pull, Scope Fit. Score auto-updates."
+    },
+    {
+      "Role Navigator — Instructions": "Use Notes to paste links to PoRs, KPIs, sponsor commitments, market signals."
+    }
+  ]
+}

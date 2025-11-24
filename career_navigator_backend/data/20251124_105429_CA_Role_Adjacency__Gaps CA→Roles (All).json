@@ -1,0 +1,68 @@
+{
+  "sheet": "Gaps CA→Roles (All)",
+  "headers": [
+    "Target role",
+    "Competency (canonical)",
+    "Gap (levels)",
+    "Chief Architect target",
+    "Target role target"
+  ],
+  "rows": [
+    {
+      "Target role": "Board Director",
+      "Competency (canonical)": "Executive/board storytelling (internal)",
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Target role": "Board Director",
+      "Competency (canonical)": "Customer/market & competitive intelligence",
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P",
+      "Target role target": "A"
+    },
+    {
+      "Target role": "Board Director",
+      "Competency (canonical)": "Governance & fiduciary oversight",
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "A",
+      "Target role target": "Au"
+    },
+    {
+      "Target role": "Board Director",
+      "Competency (canonical)": "Portfolio capital allocation & FinOps/Chargeback",
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Target role": "Board Director",
+      "Competency (canonical)": "Mergers, Acquisitions & Partnership Integration",
+      "Gap (levels)": 0.5,
+      "Chief Architect target": "P–A",
+      "Target role target": "A"
+    },
+    {
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Vendor & commercial management (sourcing, negotiations, TCV)",
+      "Gap (levels)": 2.0,
+      "Chief Architect target": "P",
+      "Target role target": "Au"
+    },
+    {
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Portfolio capital allocation & FinOps/Chargeback",
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P–A",
+      "Target role target": "A–Au"
+    },
+    {
+      "Target role": "Business Unit Chief Information Officer",
+      "Competency (canonical)": "Customer/market & competitive intelligence",
+      "Gap (levels)": 1.0,
+      "Chief Architect target": "P",
+      "Target role target": "A"
+    }
+  ]
+}

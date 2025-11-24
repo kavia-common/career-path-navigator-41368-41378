@@ -1,0 +1,133 @@
+{
+  "sheet": "Competency Definitions",
+  "headers": [
+    "Competency",
+    "Definition"
+  ],
+  "rows": [
+    {
+      "Competency": "Strategy-to-Capability",
+      "Definition": "Translate enterprise strategy into clear capability bets, target states, and sequenced roadmaps with measurable outcomes."
+    },
+    {
+      "Competency": "Enterprise Architecture",
+      "Definition": "Define, govern, and evolve enterprise/domain reference architectures, patterns, and standards aligned to strategy."
+    },
+    {
+      "Competency": "Platform Economics",
+      "Definition": "Run platforms as products (SKUs/SLAs/XLAs), set tenancy and pricing/showback, and manage unit cost and adoption."
+    },
+    {
+      "Competency": "IDP & DevEx",
+      "Definition": "Provide paved roads and self-service for teams; instrument flow metrics (lead time, CFR, MTTI) to improve developer experience."
+    },
+    {
+      "Competency": "Engineering Excellence",
+      "Definition": "Establish modern engineering practices, quality gates, CI/CD, and continuous improvement across teams."
+    },
+    {
+      "Competency": "SRE & Resilience",
+      "Definition": "Design for reliability and operability with SLOs, error budgets, capacity policies, and resilience patterns."
+    },
+    {
+      "Competency": "Cloud & Infra",
+      "Definition": "Architect and operate scalable, automated compute/network/storage/edge with modernization and FinOps discipline."
+    },
+    {
+      "Competency": "Data & Knowledge Fabric",
+      "Definition": "Integrate data events, contracts, knowledge graph, and search index to power discovery and decisioning."
+    },
+    {
+      "Competency": "Data Governance",
+      "Definition": "Set policy, stewardship, quality, lineage, and privacy-by-design to manage data as a trusted asset."
+    },
+    {
+      "Competency": "AI & Agents",
+      "Definition": "Design agentic systems and orchestration; embed safety guardrails, evaluation, and registries across the lifecycle."
+    },
+    {
+      "Competency": "AI Model Risk",
+      "Definition": "Inventory models, codify controls, monitor performance/robustness/ethics, and report AI risk to executives."
+    },
+    {
+      "Competency": "Cybersecurity",
+      "Definition": "Design identity-centric protection, detection, and response aligned to zero-trust principles."
+    },
+    {
+      "Competency": "Info Risk & Assurance",
+      "Definition": "Provide 2nd-line oversight, assurance, and reporting on risk posture to ELT/Board."
+    },
+    {
+      "Competency": "Observability",
+      "Definition": "Deliver end-to-end metrics/logs/traces and product health views to inform operations and decisions."
+    },
+    {
+      "Competency": "Incident & Resilience",
+      "Definition": "Run major incident response, continuity, disaster recovery, and chaos testing at scale."
+    },
+    {
+      "Competency": "Portfolio Governance",
+      "Definition": "Prioritize, sequence, and govern investments with dependency, risk, and value tracking."
+    },
+    {
+      "Competency": "FinOps & Capacity",
+      "Definition": "Optimize spend and capacity; balance SLA targets against cost and demand with transparency."
+    },
+    {
+      "Competency": "Benefits Realization",
+      "Definition": "Design value hypotheses, instrument outcomes, and report realized results to CFO/ELT."
+    },
+    {
+      "Competency": "Service Catalog & XLAs",
+      "Definition": "Define service portfolio, SLO/XLAs, demand shaping, and customer experience management."
+    },
+    {
+      "Competency": "Vendor & Partner",
+      "Definition": "Shape sourcing strategy, govern partners and commercials, and drive co-innovation."
+    },
+    {
+      "Competency": "M&A & Partnerships",
+      "Definition": "Lead diligence and integration/separation; structure partnerships to accelerate strategy."
+    },
+    {
+      "Competency": "Customer Insight",
+      "Definition": "Continuously capture voice-of-customer and market signals to inform product and platform bets."
+    },
+    {
+      "Competency": "Product & Monetization",
+      "Definition": "Own roadmap-to-revenue/impact, pricing/packaging, and adoption growth for products and platforms."
+    },
+    {
+      "Competency": "Operating Model Design",
+      "Definition": "Structure teams, roles, decision rights, and flow for outcome delivery across value streams."
+    },
+    {
+      "Competency": "Org & Talent",
+      "Definition": "Evolve job architecture, skills, coaching, and succession to build high-performing teams."
+    },
+    {
+      "Competency": "External Signaling",
+      "Definition": "Build credibility through thought leadership, recruiting brand, and stakeholder storytelling."
+    },
+    {
+      "Competency": "Fiduciary Governance",
+      "Definition": "Engage ELT/Board on accountability, compliance, and enterprise risk/return trade-offs."
+    },
+    {
+      "Competency": "Change & Adoption",
+      "Definition": "Drive adoption at scale via enablement, champions, communications, and feedback loops."
+    },
+    {
+      "Competency": "Customer Technical Leadership / Solution Architecture",
+      "Definition": "Lead end-to-end customer solution design: translate outcomes into reference solutions across product, platform, data, and security; document trade-offs; assure NFRs; and guide delivery handoff with guardrails."
+    },
+    {
+      "Competency": "Digital Product & Customer Experience",
+      "Definition": "Own strategy and lifecycle for digital products and journeys; run continuous discovery and experiments; ensure accessibility and performance; align UX/engineering/operations; and instrument conversion, engagement, retention, and NPS to iterate."
+    },
+    {
+      "Competency": "Standards & Controls-as-Code",
+      "Definition": "Codify standards and risk controls as code enforced in CI/CD and runtime; define exceptions and lifecycle; track coverage and drift; and automate evidence to reduce audit toil while improving compliance."
+    }
+  ]
+}

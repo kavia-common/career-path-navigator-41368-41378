@@ -1,0 +1,29 @@
+{
+  "sheet": "Legend",
+  "headers": [
+    "Item",
+    "Definition"
+  ],
+  "rows": [
+    {
+      "Item": "Proficiency scale",
+      "Definition": "F = Foundational; P = Practitioner; A = Advanced; Au = Authority/Board-level."
+    },
+    {
+      "Item": "Range values",
+      "Definition": "P–A = stronger than Practitioner but not full Advanced; A–Au = between Advanced and Authority."
+    },
+    {
+      "Item": "Overlap method",
+      "Definition": "Per competency: min(level_i, level_j) / max(level_i, level_j). Overall overlap is the mean across competencies with values for both roles."
+    },
+    {
+      "Item": "Defaults philosophy",
+      "Definition": "Most executive roles require proficiency across nearly all competencies at least at F; core exec competencies default to P."
+    },
+    {
+      "Item": "Editing guidance",
+      "Definition": "Adjust cell values where your org’s context demands higher/lower proficiency; use ranges when appropriate."
+    }
+  ]
+}

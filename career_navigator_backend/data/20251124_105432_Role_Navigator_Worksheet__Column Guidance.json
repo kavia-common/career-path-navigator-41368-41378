@@ -1,0 +1,59 @@
+{
+  "sheet": "Column Guidance",
+  "headers": [
+    "Column",
+    "Definition",
+    "Scoring anchors / examples",
+    "What to reference (data/evidence)"
+  ],
+  "rows": [
+    {
+      "Column": "Interest (1–5)",
+      "Definition": "Your intrinsic energy for the role now.",
+      "Scoring anchors / examples": "• 5 – would accept tomorrow\n• 3 – interested with conditions\n• 1 – mild curiosity",
+      "What to reference (data/evidence)": "• Career intent notes; mentor discussions"
+    },
+    {
+      "Column": "Overlap with Chief Architect (%)",
+      "Definition": "Computed similarity from v1.1 taxonomy.",
+      "Scoring anchors / examples": "• 70%+ high\n• 50–70% medium\n• <50% low",
+      "What to reference (data/evidence)": "• Adjacency derived from taxonomy"
+    },
+    {
+      "Column": "Sponsorship Strength (0–5)",
+      "Definition": "Quality of named sponsor and delegation.",
+      "Scoring anchors / examples": "• 5 – exec sponsor, delegated decisions\n• 3 – supportive but ad-hoc\n• 1 – weak",
+      "What to reference (data/evidence)": "• Sponsor brief; recurring invites"
+    },
+    {
+      "Column": "Readiness Runway (months)",
+      "Definition": "Time to real opportunity.",
+      "Scoring anchors / examples": "• 0–3 open req/backfill\n• 4–12 plausible within year\n• 12–24+ distant",
+      "What to reference (data/evidence)": "• Workforce plan; succession docs"
+    },
+    {
+      "Column": "Risk/Regulatory Fit (0–5)",
+      "Definition": "Governance compatibility.",
+      "Scoring anchors / examples": "• 5 – operate under similar gates\n• 3 – some new oversight\n• 1 – material new oversight",
+      "What to reference (data/evidence)": "• Audit results; policy-as-code coverage"
+    },
+    {
+      "Column": "Market Pull (0–5)",
+      "Definition": "Internal/external demand signal.",
+      "Scoring anchors / examples": "• 5 – CEO/board priority\n• 3 – recognized need\n• 1 – weak demand",
+      "What to reference (data/evidence)": "• Open roles; customer/analyst asks"
+    },
+    {
+      "Column": "Scope Appetite Fit (0–5)",
+      "Definition": "Match of scope and your appetite.",
+      "Scoring anchors / examples": "• 5 – ready for full scope\n• 3 – most scope OK\n• 1 – scope premature",
+      "What to reference (data/evidence)": "• Prior decision ownership; mentor feedback"
+    },
+    {
+      "Column": "Notes / Evidence links",
+      "Definition": "Links to artifacts and commitments.",
+      "Scoring anchors / examples": "• Keep 1–2 lines with tag (PoR/KPI/Sponsor/Market)",
+      "What to reference (data/evidence)": "• Value Story deck; A/C/R list; analyst brief links"
+    }
+  ]
+}
