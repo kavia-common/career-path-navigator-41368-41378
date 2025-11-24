@@ -133,7 +133,14 @@ def register(payload: UserCreate):
     if existing:
         # Use 409 Conflict for duplicate resource
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already registered")
-    pwd_hash = hash_password(payload.password)
+    try:
+        pwd_hash = hash_password(payload.password)
+    except ValueError as ve:
+        # Input policy violation (e.g., too short)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(ve))
+    except Exception:
+        # Any unexpected hashing/backend error -> 400 to avoid 500s in auth
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid password")
     rec = _create_user(email_norm, payload.full_name, pwd_hash)
     return _user_public(rec)
 

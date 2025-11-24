@@ -30,17 +30,39 @@ except Exception:  # pragma: no cover - fallback when passlib not installed
 from src.core.config import get_settings
 
 
+def _bcrypt_safe_normalize(pw: str) -> str:
+    """
+    Normalize and safely limit password for bcrypt which only considers first 72 bytes.
+    We:
+    - Strip leading/trailing whitespace (not security-sensitive here, but avoids accidental spaces)
+    - Encode to utf-8 and truncate to 72 bytes boundary
+    - Decode back to utf-8 with errors='ignore' to ensure compatibility
+    Note: This mirrors effective bcrypt semantics and avoids runtime ValueError from some backends.
+    """
+    if not isinstance(pw, str):
+        raise ValueError("Password must be a string.")
+    trimmed = pw.strip()
+    b = trimmed.encode("utf-8")
+    limited = b[:72]
+    return limited.decode("utf-8", errors="ignore")
+
+
 # PUBLIC_INTERFACE
 def hash_password(password: str) -> str:
     """Hash a password securely.
 
     If passlib is available, use bcrypt. Otherwise, use salted SHA-256 (not recommended for prod).
+    Controls:
+    - Enforce minimum length
+    - Normalize/truncate to 72 bytes for bcrypt to prevent backend errors and undefined behavior
     """
     if not isinstance(password, str) or len(password) < 8:
         # Basic validation; real policies can be stricter
         raise ValueError("Password must be at least 8 characters.")
     if _pwd_context:
-        return _pwd_context.hash(password)
+        # Normalize for bcrypt 72-byte constraint
+        normalized = _bcrypt_safe_normalize(password)
+        return _pwd_context.hash(normalized)
     # Fallback: salted sha256
     salt = secrets.token_hex(16)
     digest = hashlib.sha256((salt + password).encode("utf-8")).hexdigest()
@@ -49,10 +71,14 @@ def hash_password(password: str) -> str:
 
 # PUBLIC_INTERFACE
 def verify_password(password: str, hashed: str) -> bool:
-    """Verify a password against a stored hash."""
+    """Verify a password against a stored hash.
+
+    When using bcrypt, apply the same normalization/truncation as during hashing to ensure consistency.
+    """
     if _pwd_context and hashed and not hashed.startswith("sha256$"):
         try:
-            return _pwd_context.verify(password, hashed)
+            normalized = _bcrypt_safe_normalize(password)
+            return _pwd_context.verify(normalized, hashed)
         except Exception:
             return False
     # Fallback verify for salted sha256
