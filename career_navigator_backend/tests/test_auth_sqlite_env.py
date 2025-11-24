@@ -28,6 +28,11 @@ def test_register_login_with_requested_sqlite_env(monkeypatch):
     reset_settings_cache()
     auth_router.reset_auth_state()
 
+    # CORS preflight checks on auth endpoints
+    for path, method in [("/auth/register", "POST"), ("/auth/login", "POST"), ("/auth/me", "GET")]:
+        pre = client.options(path, headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": method})
+        assert pre.status_code in (200, 204)
+
     email = "sqlite_env_user@example.com"
     password = "StrongPassw0rd!"
     full_name = "SQLite Env User"

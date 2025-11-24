@@ -11,9 +11,10 @@ def _register_and_login(email: str, full_name: str | None = None, password: str 
     # Ensure clean in-memory state (no-op for sqlite)
     auth_router.reset_auth_state()
 
-    # CORS preflight smoke (OPTIONS) for /auth/register should not error (middleware handles it)
-    pre = client.options("/auth/register", headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "POST"})
-    assert pre.status_code in (200, 204)
+    # CORS preflight smoke (OPTIONS) for auth routes should not error (middleware handles it)
+    for path, method in [("/auth/register", "POST"), ("/auth/login", "POST"), ("/auth/me", "GET")]:
+        pre = client.options(path, headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": method})
+        assert pre.status_code in (200, 204)
 
     # Register
     r = client.post("/auth/register", json={"email": email, "full_name": full_name, "password": password})

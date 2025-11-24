@@ -41,6 +41,8 @@ app.add_middleware(
     allow_credentials=True,  # allow cookies/Authorization headers if needed
     allow_methods=["*"],     # include OPTIONS automatically
     allow_headers=["*"],     # include requested custom headers
+    expose_headers=["*"],
+    max_age=600,
 )
 
 # Exception handlers (structured, no sensitive details)
