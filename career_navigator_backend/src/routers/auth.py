@@ -1,0 +1,126 @@
+"""Authentication routes: register, login, me.
+
+Uses SQLite when DATA_PROVIDER=sqlite; otherwise uses in-memory store.
+
+PySecure-4-Minimal:
+- Validate inputs via Pydantic models.
+- Hash passwords; do not log secrets.
+- Use Bearer token with JWT.
+"""
+from __future__ import annotations
+
+from datetime import datetime, timezone
+from typing import Dict, Optional
+from uuid import uuid4
+
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordBearer
+from pydantic import EmailStr
+
+from src.core.config import get_settings
+from src.security.jwt import create_access_token, decode_token, hash_password, verify_password
+from src.models.auth import UserCreate, UserLogin, TokenResponse, UserPublic, MeResponse
+from src.db import sqlite as sqlite_db
+
+router = APIRouter(prefix="/auth", tags=["auth"])
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+
+# In-memory fallback stores (for MVP when using JSON provider)
+_mem_users: Dict[str, Dict] = {}  # id -> record
+_mem_users_by_email: Dict[str, str] = {}  # email -> id
+
+
+def _get_user_by_email(email: str) -> Optional[Dict]:
+    settings = get_settings()
+    if settings.data_provider == "sqlite":
+        with sqlite_db.get_conn() as conn:
+            row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE email = ?", (email,))
+            return row
+    # In-memory
+    uid = _mem_users_by_email.get(email.lower())
+    return _mem_users.get(uid) if uid else None
+
+
+def _create_user(email: EmailStr, full_name: Optional[str], pwd_hash: str) -> Dict:
+    settings = get_settings()
+    uid = str(uuid4())
+    now = datetime.now(timezone.utc).isoformat()
+    record = {
+        "id": uid,
+        "email": str(email).lower(),
+        "full_name": full_name,
+        "password_hash": pwd_hash,
+        "created_at": now,
+    }
+    if settings.data_provider == "sqlite":
+        with sqlite_db.get_conn() as conn:
+            sqlite_db.execute(
+                conn,
+                "INSERT INTO users (id, email, full_name, password_hash, created_at) VALUES (?, ?, ?, ?, ?)",
+                (record["id"], record["email"], record["full_name"], record["password_hash"], record["created_at"]),
+            )
+    else:
+        _mem_users[uid] = record
+        _mem_users_by_email[record["email"]] = uid
+    return record
+
+
+def _get_user_by_id(user_id: str) -> Optional[Dict]:
+    settings = get_settings()
+    if settings.data_provider == "sqlite":
+        with sqlite_db.get_conn() as conn:
+            row = sqlite_db.fetch_one(conn, "SELECT * FROM users WHERE id = ?", (user_id,))
+            return row
+    return _mem_users.get(user_id)
+
+
+def _user_public(rec: Dict) -> UserPublic:
+    return UserPublic(id=rec["id"], email=rec["email"], full_name=rec.get("full_name"))
+
+
+def get_current_user(token: str = Depends(oauth2_scheme)) -> UserPublic:
+    """Dependency to extract current user from JWT token."""
+    try:
+        payload = decode_token(token)
+    except Exception:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    sub = payload.get("sub")
+    if not sub:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    rec = _get_user_by_id(sub)
+    if not rec:
+        raise HTTPException(status_code=401, detail="User not found")
+    return _user_public(rec)
+
+
+# PUBLIC_INTERFACE
+@router.post("/register", response_model=UserPublic, summary="Register user", description="Create a new user account.")
+def register(payload: UserCreate):
+    """Register a new user with hashed password."""
+    existing = _get_user_by_email(payload.email)
+    if existing:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    pwd_hash = hash_password(payload.password)
+    rec = _create_user(payload.email, payload.full_name, pwd_hash)
+    return _user_public(rec)
+
+
+# PUBLIC_INTERFACE
+@router.post("/login", response_model=TokenResponse, summary="Login", description="Authenticate and receive an access token.")
+def login(payload: UserLogin):
+    """Authenticate a user and return a JWT access token."""
+    rec = _get_user_by_email(payload.email)
+    if not rec:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    if not verify_password(payload.password, rec["password_hash"]):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    token = create_access_token(subject=rec["id"], claims={"email": rec["email"]})
+    return TokenResponse(access_token=token)
+
+
+# PUBLIC_INTERFACE
+@router.get("/me", response_model=MeResponse, summary="Current user", description="Return the current authenticated user.")
+def me(current: UserPublic = Depends(get_current_user)):
+    """Return current user data."""
+    return MeResponse(**current.model_dump())
