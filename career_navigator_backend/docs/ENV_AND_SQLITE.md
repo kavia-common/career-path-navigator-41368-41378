@@ -10,6 +10,8 @@ Override via .env:
 - See .env.example. You may set:
   - DATA_PROVIDER=sqlite|json
   - DB_PATH=/absolute/or/relative/path/to/myapp.db
+    - In this workspace, the database container path is:
+      /home/kavia/workspace/code-generation/career-path-navigator-41368-41377/career_navigator_database/myapp.db
   - JWT_SECRET (required for non-dev)
   - CORS_ORIGINS (CSV)
 
