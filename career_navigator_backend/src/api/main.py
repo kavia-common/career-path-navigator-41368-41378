@@ -38,9 +38,9 @@ app.__doc__ = (
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
-    allow_credentials=True,  # allow cookies/Authorization headers if needed
-    allow_methods=["*"],     # include OPTIONS automatically
-    allow_headers=["*"],     # include requested custom headers
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
     expose_headers=["*"],
     max_age=600,
 )
@@ -51,22 +51,18 @@ async def sqlite_error_handler(request: Request, exc: sqlite3.DatabaseError):
     """Map sqlite operational/db errors to 400 to avoid 500s in auth and persistence flows."""
     return JSONResponse(status_code=400, content={"detail": "Database operation failed"})
 
-# Ensure standard HTTP exceptions pass through (do not override FastAPI/Starlette defaults)
 @app.exception_handler(StarletteHTTPException)
 async def http_exception_passthrough(request: Request, exc: StarletteHTTPException):
     """Return normalized JSON error for HTTP exceptions."""
     return JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
 
-# Do not treat validation errors from OPTIONS as 500s; keep default 422 for non-OPTIONS requests
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """On CORS preflight (OPTIONS), short-circuit with 204; otherwise return 422 with details."""
     if request.method.upper() == "OPTIONS":
-        # Let CORSMiddleware handle headers; return 204 No Content to avoid schema/body validation errors.
         return JSONResponse(status_code=204, content=None)
     return JSONResponse(status_code=422, content={"detail": exc.errors()})
 
-# Catch-all for truly unhandled exceptions only
 @app.exception_handler(Exception)
 async def unhandled_exception_handler(request: Request, exc: Exception):
     """Return a generic 500 without leaking internals."""
