@@ -75,6 +75,9 @@ def _create_user(email: EmailStr, full_name: Optional[str], pwd_hash: str) -> Di
         except sqlite3.OperationalError:
             # Likely bad DB path/locked schema/etc.
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
+        except sqlite3.DatabaseError:
+            # Broader database issues mapped to client error to avoid 500s in auth flows
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Database operation failed")
     else:
         # Enforce unique email in-memory
         if email_norm in _mem_users_by_email:

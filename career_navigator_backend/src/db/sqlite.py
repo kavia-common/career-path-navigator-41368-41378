@@ -55,7 +55,8 @@ def get_conn():
     settings = get_settings()
     db_path = Path(settings.db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True)
-    conn = sqlite3.connect(str(db_path))
+    # Use check_same_thread=False to prevent thread-affinity errors under TestClient or background tasks.
+    conn = sqlite3.connect(str(db_path), check_same_thread=False)
     try:
         _ensure_schema(conn)
         yield conn
