@@ -3,6 +3,7 @@ from pathlib import Path
 
 from src.api.main import app
 from src.routers import auth as auth_router
+from src.core.config import reset_settings_cache
 
 client = TestClient(app)
 
@@ -22,7 +23,8 @@ def test_register_login_with_requested_sqlite_env(monkeypatch):
     monkeypatch.setenv("DATA_PROVIDER", "sqlite")
     monkeypatch.setenv("DB_PATH", db_path)
 
-    # Ensure clean in-memory state (no-op under sqlite)
+    # Ensure clean state and reload settings to pick up env
+    reset_settings_cache()
     auth_router.reset_auth_state()
 
     email = "sqlite_env_user@example.com"

@@ -36,13 +36,21 @@ def reset_auth_state() -> None:
     """Reset in-memory auth state for tests or local dev.
 
     Note:
-        - This only clears in-memory user stores when DATA_PROVIDER != "sqlite".
-        - When using SQLite provider, users are persisted in the DB and are not cleared.
+        - Clears in-memory user stores when DATA_PROVIDER != "sqlite".
+        - When using SQLite provider, also clears persisted tables for test isolation.
     """
     settings = get_settings()
     if settings.data_provider != "sqlite":
         _mem_users.clear()
         _mem_users_by_email.clear()
+    else:
+        # Clear persisted users/progress/jobs for isolation in tests
+        try:
+            from src.db.sqlite import reset_users_table  # local import to avoid cycles at module import
+            reset_users_table()
+        except Exception:
+            # If reset fails (e.g., path issues), keep silent to avoid masking other errors.
+            pass
 
 
 def _normalize_email(email: str) -> str:

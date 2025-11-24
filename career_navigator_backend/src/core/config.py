@@ -114,3 +114,14 @@ def get_settings() -> Settings:
     if _settings is None:
         _settings = load_settings()
     return _settings
+
+# PUBLIC_INTERFACE
+def reset_settings_cache() -> None:
+    """Reset the cached settings.
+
+    This is primarily intended for tests to ensure that changes to environment
+    variables (e.g., DATA_PROVIDER, DB_PATH) take effect on subsequent calls
+    to get_settings().
+    """
+    global _settings
+    _settings = None

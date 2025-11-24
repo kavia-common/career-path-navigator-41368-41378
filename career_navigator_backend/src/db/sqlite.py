@@ -81,3 +81,19 @@ def fetch_one(conn: sqlite3.Connection, query: str, params: Iterable[Any]) -> Op
 def execute(conn: sqlite3.Connection, query: str, params: Iterable[Any]) -> None:
     conn.execute(query, list(params))
     conn.commit()
+
+
+# PUBLIC_INTERFACE
+def reset_users_table() -> None:
+    """Drop all rows from users, jobs, and progress tables for test isolation.
+
+    Intended for use in tests when using the SQLite provider to ensure a clean state
+    across test cases, especially when a shared DB path is used across runs.
+    """
+    with get_conn() as conn:
+        _ensure_schema(conn)
+        # Clear dependent tables first due to foreign keys
+        conn.execute("DELETE FROM jobs")
+        conn.execute("DELETE FROM progress")
+        conn.execute("DELETE FROM users")
+        conn.commit()

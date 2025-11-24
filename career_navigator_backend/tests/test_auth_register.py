@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 
 from src.api.main import app
 from src.routers import auth as auth_router
+from src.core.config import reset_settings_cache
 
 client = TestClient(app)
 
@@ -37,6 +38,8 @@ def test_register_login_json_provider(monkeypatch, tmp_path):
     # Ensure default JSON provider
     monkeypatch.delenv("DATA_PROVIDER", raising=False)
     monkeypatch.delenv("DB_PATH", raising=False)
+    reset_settings_cache()
+    auth_router.reset_auth_state()
     _register_and_login("User1@example.com", "User One")
 
 
@@ -45,4 +48,6 @@ def test_register_login_sqlite_provider(monkeypatch, tmp_path):
     db_path = tmp_path / "test.db"
     monkeypatch.setenv("DATA_PROVIDER", "sqlite")
     monkeypatch.setenv("DB_PATH", str(db_path))
+    reset_settings_cache()
+    auth_router.reset_auth_state()
     _register_and_login("User2@example.com", "User Two")
