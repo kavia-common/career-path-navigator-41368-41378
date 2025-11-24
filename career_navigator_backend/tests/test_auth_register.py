@@ -1,11 +1,14 @@
 from fastapi.testclient import TestClient
 
 from src.api.main import app
+from src.routers import auth as auth_router
 
 client = TestClient(app)
 
 
 def _register_and_login(email: str, full_name: str | None = None, password: str = "StrongPassw0rd!"):
+    # Ensure clean in-memory state (no-op for sqlite)
+    auth_router.reset_auth_state()
     # Register
     r = client.post("/auth/register", json={"email": email, "full_name": full_name, "password": password})
     assert r.status_code == 201, r.text

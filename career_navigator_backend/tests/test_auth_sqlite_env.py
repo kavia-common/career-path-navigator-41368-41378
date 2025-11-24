@@ -2,6 +2,7 @@ from fastapi.testclient import TestClient
 from pathlib import Path
 
 from src.api.main import app
+from src.routers import auth as auth_router
 
 client = TestClient(app)
 
@@ -20,6 +21,9 @@ def test_register_login_with_requested_sqlite_env(monkeypatch):
     # Apply env
     monkeypatch.setenv("DATA_PROVIDER", "sqlite")
     monkeypatch.setenv("DB_PATH", db_path)
+
+    # Ensure clean in-memory state (no-op under sqlite)
+    auth_router.reset_auth_state()
 
     email = "sqlite_env_user@example.com"
     password = "StrongPassw0rd!"

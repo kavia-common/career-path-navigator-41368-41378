@@ -31,6 +31,19 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 _mem_users: Dict[str, Dict] = {}  # id -> record
 _mem_users_by_email: Dict[str, str] = {}  # email -> id
 
+# PUBLIC_INTERFACE
+def reset_auth_state() -> None:
+    """Reset in-memory auth state for tests or local dev.
+
+    Note:
+        - This only clears in-memory user stores when DATA_PROVIDER != "sqlite".
+        - When using SQLite provider, users are persisted in the DB and are not cleared.
+    """
+    settings = get_settings()
+    if settings.data_provider != "sqlite":
+        _mem_users.clear()
+        _mem_users_by_email.clear()
+
 
 def _normalize_email(email: str) -> str:
     return email.strip().lower()
