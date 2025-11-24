@@ -1,9 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse, PlainTextResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from fastapi.exceptions import RequestValidationError
 import sqlite3
+from pathlib import Path
 
 from src.core.config import get_settings
 from src.routers import health, auth, datasets, roles, competencies, adjacency, resources, recommendations, jobs, progress
@@ -79,3 +80,37 @@ app.include_router(resources.router)
 app.include_router(recommendations.router)
 app.include_router(jobs.router)
 app.include_router(progress.router)
+
+# PUBLIC_INTERFACE
+@app.get(
+    "/interfaces/openapi.json",
+    summary="OpenAPI JSON",
+    description="Serve the generated OpenAPI JSON specification for this backend.",
+    tags=["health"],
+)
+def serve_openapi_static():
+    """Return the OpenAPI JSON from interfaces/openapi.json if present, else from app state."""
+    # Prefer pre-generated static file to avoid runtime overhead and ensure parity with published spec
+    static_path = Path(__file__).resolve().parent.parent.parent / "interfaces" / "openapi.json"
+    if static_path.exists():
+        return FileResponse(path=str(static_path), media_type="application/json")
+    # Fallback to dynamic generation
+    return app.openapi()
+
+# PUBLIC_INTERFACE
+@app.get(
+    "/docs/usage",
+    summary="API usage notes",
+    description="Usage notes for API consumers, including auth scheme and base paths.",
+    tags=["health"],
+)
+def docs_usage_notes():
+    """Return brief usage notes for API consumers."""
+    notes = (
+        "Career Navigator Backend API\n"
+        "- Auth: OAuth2 password flow; POST /auth/login returns bearer token; use Authorization: Bearer <token>\n"
+        "- Public endpoints: /, /datasets/, /roles/, /competencies/*, /adjacency/*, /resources/, /recommendations/for-ca\n"
+        "- Protected endpoints: /jobs/, /progress/ (GET/POST) require bearer token\n"
+        "- OpenAPI JSON available at /interfaces/openapi.json; interactive docs at /docs"
+    )
+    return PlainTextResponse(notes)
