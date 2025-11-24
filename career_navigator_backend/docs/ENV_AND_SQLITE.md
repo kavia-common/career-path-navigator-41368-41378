@@ -23,8 +23,8 @@ Password hashing and bcrypt 72-byte limit:
 bcrypt/passlib compatibility notes:
 - We pin passlib[bcrypt]==1.7.4 and bcrypt==4.0.1 to avoid a known incompatibility causing:
   AttributeError: module 'bcrypt' has no attribute '__about__'
-- The security module prefers passlib's bcrypt handlers; if a C backend is unavailable/problematic,
-  passlib will transparently use its pure-Python bcrypt implementation.
+- The security module prefers passlib's bcrypt handlers and sets PASSLIB_BUILTIN_BCRYPT=1 to prefer the pure-Python backend,
+  avoiding platform-specific C-extension issues. You can also set this in the environment.
 - If passlib cannot be imported at all, the system falls back to salted SHA-256 (dev-only) and continues to function.
 
 Operational Error Handling:

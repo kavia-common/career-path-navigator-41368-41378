@@ -30,22 +30,23 @@ from jose import jwt  # python-jose (fastapi-compatible)
 # Robust passlib import with bcrypt handler fallback selection.
 _pwd_context: Optional["CryptContext"] = None
 try:
-    # Primary path: standard CryptContext with bcrypt
+    # Prefer passlib's bcrypt handler and explicitly prefer builtin (pure-python) backend to avoid C-extension issues.
+    import os
+    os.environ.setdefault("PASSLIB_BUILTIN_BCRYPT", "1")
+
     from passlib.context import CryptContext  # type: ignore
     from passlib.handlers import bcrypt as passlib_bcrypt  # type: ignore
 
-    # Attempt to reference handler attributes to trigger potential import errors early.
-    _ = getattr(passlib_bcrypt, "__all__", None)
+    # Touch attribute to ensure import path is valid without reading external package internals.
+    _ = getattr(passlib_bcrypt, "__name__", "passlib.handlers.bcrypt")
 
-    # Build a context that prefers bcrypt and allows passlib to choose a working backend.
-    # Note: passlib will try C backends first; if unavailable, its pure-Python implementation is used.
+    # Build a context that prefers bcrypt. With PASSLIB_BUILTIN_BCRYPT=1, passlib will use its internal backend.
     _pwd_context = CryptContext(
         schemes=["bcrypt"],
         deprecated="auto",
     )
 except Exception:
-    # If the import of passlib or its bcrypt handler fails (e.g., due to problematic bcrypt package),
-    # gracefully degrade to no-passlib mode; downstream code will use salted SHA-256 fallback.
+    # If passlib import/initialization fails, gracefully degrade to salted SHA-256.
     _pwd_context = None
 
 from src.core.config import get_settings
