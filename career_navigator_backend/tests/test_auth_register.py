@@ -10,6 +10,11 @@ client = TestClient(app)
 def _register_and_login(email: str, full_name: str | None = None, password: str = "StrongPassw0rd!"):
     # Ensure clean in-memory state (no-op for sqlite)
     auth_router.reset_auth_state()
+
+    # CORS preflight smoke (OPTIONS) for /auth/register should not error (middleware handles it)
+    pre = client.options("/auth/register", headers={"Origin": "http://localhost:3000", "Access-Control-Request-Method": "POST"})
+    assert pre.status_code in (200, 204)
+
     # Register
     r = client.post("/auth/register", json={"email": email, "full_name": full_name, "password": password})
     assert r.status_code == 201, r.text
@@ -24,7 +29,10 @@ def _register_and_login(email: str, full_name: str | None = None, password: str 
     # Login
     r3 = client.post("/auth/login", json={"email": email, "password": password})
     assert r3.status_code == 200, r3.text
-    token = r3.json()["access_token"]
+    token_payload = r3.json()
+    token = token_payload["access_token"]
+    # token_type should be 'bearer' by contract
+    assert token_payload.get("token_type") == "bearer"
 
     # Me
     r4 = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})

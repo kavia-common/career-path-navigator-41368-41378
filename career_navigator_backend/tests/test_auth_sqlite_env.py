@@ -13,6 +13,7 @@ def test_register_login_with_requested_sqlite_env(monkeypatch):
     Validate auth endpoints using the specific environment requested:
     DATA_PROVIDER=sqlite
     DB_PATH=/home/kavia/workspace/code-generation/career-path-navigator-41368-41377/career_navigator_database/myapp.db
+    The DB path is shared across runs; tests rely on reset_auth_state() to clear user tables.
     """
     db_path = "/home/kavia/workspace/code-generation/career-path-navigator-41368-41377/career_navigator_database/myapp.db"
     # Ensure parent directory exists; the app will create it if missing but we don't create files here.
@@ -45,8 +46,10 @@ def test_register_login_with_requested_sqlite_env(monkeypatch):
     # Login should return 200 with access_token
     r3 = client.post("/auth/login", json={"email": email, "password": password})
     assert r3.status_code == 200, r3.text
-    token = r3.json().get("access_token")
+    token_payload = r3.json()
+    token = token_payload.get("access_token")
     assert token and isinstance(token, str)
+    assert token_payload.get("token_type") == "bearer"
 
     # /auth/me should return 200
     r4 = client.get("/auth/me", headers={"Authorization": f"Bearer {token}"})

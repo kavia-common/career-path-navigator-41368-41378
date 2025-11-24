@@ -25,6 +25,7 @@ import sqlite3
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
+# The tokenUrl must match the login route path for OpenAPI/Swagger OAuth2 flows.
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 
 # In-memory fallback stores (for MVP when using JSON provider)
