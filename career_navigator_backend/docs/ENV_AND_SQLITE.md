@@ -15,6 +15,11 @@ Override via .env:
   - JWT_SECRET (required for non-dev)
   - CORS_ORIGINS (CSV)
 
+Password hashing and bcrypt 72-byte limit:
+- The service safely supports passwords longer than 72 bytes by pre-hashing with SHA-256 and then hashing with bcrypt.
+- Stored hashes created for long passwords are tagged internally and verified accordingly.
+- Existing shorter-password bcrypt hashes remain compatible.
+
 Operational Error Handling:
 - Duplicate email on register → 409 Conflict
 - SQLite Operational errors (e.g., locked DB, path invalid) → 400 Bad Request (no stack traces)
