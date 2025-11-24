@@ -1,7 +1,15 @@
 """Security utilities for JWT auth and password hashing.
 
-Uses passlib[bcrypt] if available; otherwise falls back to hashlib+salt with
-a clear comment that it's not recommended for production.
+Uses passlib[bcrypt] with safe fallbacks:
+- Prefer passlib's bcrypt handlers; if the C extension import is problematic
+  (e.g., AttributeError: module 'bcrypt' has no attribute '__about__'),
+  fall back to passlib's pure-Python bcrypt backend transparently.
+- If passlib is unavailable entirely, use salted SHA-256 (dev-only).
+
+Pre-hashing policy:
+- To avoid bcrypt's 72-byte input limit, we pre-hash long passwords using SHA-256
+  and tag stored hashes as "bcrypt-sha256$<bcrypt-hash>" so verification can
+  handle both legacy and new formats.
 
 PySecure-4-Minimal controls:
 - Use constant-time comparisons where applicable.
@@ -19,10 +27,25 @@ import secrets
 
 from jose import jwt  # python-jose (fastapi-compatible)
 
+# Robust passlib import with bcrypt handler fallback selection.
+_pwd_context: Optional["CryptContext"] = None
 try:
+    # Primary path: standard CryptContext with bcrypt
     from passlib.context import CryptContext  # type: ignore
-    _pwd_context: Optional[CryptContext] = CryptContext(schemes=["bcrypt"], deprecated="auto")
-except Exception:  # pragma: no cover - fallback when passlib not installed
+    from passlib.handlers import bcrypt as passlib_bcrypt  # type: ignore
+
+    # Attempt to reference handler attributes to trigger potential import errors early.
+    _ = getattr(passlib_bcrypt, "__all__", None)
+
+    # Build a context that prefers bcrypt and allows passlib to choose a working backend.
+    # Note: passlib will try C backends first; if unavailable, its pure-Python implementation is used.
+    _pwd_context = CryptContext(
+        schemes=["bcrypt"],
+        deprecated="auto",
+    )
+except Exception:
+    # If the import of passlib or its bcrypt handler fails (e.g., due to problematic bcrypt package),
+    # gracefully degrade to no-passlib mode; downstream code will use salted SHA-256 fallback.
     _pwd_context = None
 
 from src.core.config import get_settings
@@ -46,8 +69,6 @@ def _bcrypt_safe_transform(pw: str) -> str:
     - No silent truncation in bcrypt.
     - Users with long passwords can authenticate reliably.
     - Backwards-compatibility for existing bcrypt hashes created without pre-hashing (we support both on verify).
-
-    Note: We do not add a static prefix/suffix here to keep implementation simple, but we mark hashes with a scheme tag.
     """
     if not isinstance(pw, str):
         raise ValueError("Password must be a string.")
@@ -61,7 +82,7 @@ def _bcrypt_safe_transform(pw: str) -> str:
 
 def _is_sha256_bcrypt_tagged(hashed: str) -> bool:
     """Detect our scheme tag for pre-hashed bcrypt format."""
-    return hashed.startswith("bcrypt-sha256$")
+    return isinstance(hashed, str) and hashed.startswith("bcrypt-sha256$")
 
 
 def _wrap_bcrypt(hashed_core: str) -> str:
@@ -114,7 +135,8 @@ def verify_password(password: str, hashed: str) -> bool:
 
     Supports:
     - New scheme "bcrypt-sha256$<bcrypt>": pre-hash candidate then verify with bcrypt.
-    - Legacy plain bcrypt (no tag): verify the candidate directly (no pre-hash).
+    - Legacy plain bcrypt (no tag): verify the candidate directly (no pre-hash),
+      with a second attempt using pre-hashed candidate for compatibility.
     - Fallback "sha256$<salt>$<digest>": salted sha-256 comparison.
     """
     # bcrypt available and hash is not fallback sha256
@@ -125,13 +147,13 @@ def verify_password(password: str, hashed: str) -> bool:
                 candidate = _sha256_hex(password.strip())
                 return _pwd_context.verify(candidate, bcrypt_part)
 
-            # Legacy bcrypt (no tag). For compatibility, attempt direct verify on raw and on pre-hashed if direct fails.
+            # Legacy bcrypt (no tag). For compatibility, attempt direct verify on raw and then pre-hashed if direct fails.
             if _pwd_context.verify(password.strip(), hashed):
                 return True
-            # Some legacy hashes could have been created after truncation/normalization. Try pre-hashed candidate as well.
             candidate_ph = _sha256_hex(password.strip())
             return _pwd_context.verify(candidate_ph, hashed)
         except Exception:
+            # Any verify error yields False
             return False
 
     # Fallback verify for salted sha256

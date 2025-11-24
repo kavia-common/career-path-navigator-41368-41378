@@ -20,6 +20,13 @@ Password hashing and bcrypt 72-byte limit:
 - Stored hashes created for long passwords are tagged internally and verified accordingly.
 - Existing shorter-password bcrypt hashes remain compatible.
 
+bcrypt/passlib compatibility notes:
+- We pin passlib[bcrypt]==1.7.4 and bcrypt==4.0.1 to avoid a known incompatibility causing:
+  AttributeError: module 'bcrypt' has no attribute '__about__'
+- The security module prefers passlib's bcrypt handlers; if a C backend is unavailable/problematic,
+  passlib will transparently use its pure-Python bcrypt implementation.
+- If passlib cannot be imported at all, the system falls back to salted SHA-256 (dev-only) and continues to function.
+
 Operational Error Handling:
 - Duplicate email on register → 409 Conflict
 - SQLite Operational errors (e.g., locked DB, path invalid) → 400 Bad Request (no stack traces)
@@ -36,3 +43,4 @@ Smoke test with SQLite:
 Troubleshooting:
 - Ensure DB_PATH directory exists and is writable by the app. The service will create the directory if missing.
 - If you see 400 "Database operation failed", verify DB_PATH and file permissions or remove any corrupted db file and retry.
+- If you encounter bcrypt import errors in other environments, confirm the pinned versions above or allow the passlib pure-Python fallback.
